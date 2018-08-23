@@ -1,0 +1,60 @@
+#index-title {
+  text-decoration-line: underline;
+}
+
+#strongno {
+  background: linear-gradient(to right, rgb(212, 58, 8), rgb(231, 85, 38));
+  color: white;
+  font-size: 60px;
+}
+
+#strongno-rev {
+  background: rgb(51, 153, 255);
+  color: white;
+  font-size: 60px;
+}
+
+ul[id='great-nav']>li {
+  color:black;
+}
+
+p {
+  text-indent: 2em;
+}
+
+/* pc端 */
+@media screen and (min-width:900px) {
+  article {
+    width: 45%;
+  }
+  #editor {
+    width: 65%;
+  }
+}
+
+/* 平板端 */
+@media screen and (min-width:600px) and (max-width:900px) {
+  article {
+    width: 80%;
+  }
+}
+
+/* 移动端 */
+@media screen and (max-width:600px) {
+  article {
+    width: auto;
+  }
+}
+
+
+/* 写掉css有p用啊！！
+还不如直接消失之! */
+
+/* a[href=''] {
+  color: black;
+  text-decoration: none;
+}
+
+a[href='']:hover {
+  cursor: default;
+} */
