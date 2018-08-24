@@ -1,6 +1,8 @@
 <?php
 
+header("content-Type: text/html; charset=utf-8");
 require 'connect-my-db.php';
+
 $great_title = "";
 
 /*
@@ -8,7 +10,8 @@ $great_title = "";
   $tablename 数据表名
   $depth 起始深度
 */
-function getnav($conn, $tablename, $depth = 0) {
+function getnav($conn, $tablename, $depth = 0, $arl_pretend="") {
+  global $great_title;
   $tree = array();
   $sql = "SELECT * FROM ".$tablename." WHERE root='".$depth."'";
   // echo $sql."<br>";
@@ -28,19 +31,18 @@ function getnav($conn, $tablename, $depth = 0) {
         }
       }
       else {
-        $arl = "a/".$arl."/";
+        $arl = $arl_pretend."a/".$arl."/";
       }
       // 如果根就是自己
       // 那么标记为页面的大标题
       if($row['id'] == $row['root']) {
         $great_title = $row['navname'];
         $tree[] = $great_title;
-        echo $great_title;
         continue;
       }
       if($row["is_leaf"] != 1) {  // 如果当前不是叶节点
         // 递归添加子节点
-        $child = getnav($conn, $tablename, $row['id']);
+        $child = getnav($conn, $tablename, $row['id'], $arl_pretend);
         $tree[] = array('val'=>$row['navname'], 'arl'=>$arl, 'child'=>$child);
       }
       else {
@@ -91,6 +93,12 @@ function insertnav($arr, $level) {
       }
     }
   }
+}
+
+
+function print_title() {
+  global $great_title;
+  echo $great_title;
 }
 
 ?>

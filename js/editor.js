@@ -20,7 +20,7 @@ editor.customConfig.uploadImgHooks = {
   },
   customInsert: function (insertImg, result, editor) {
     console.log(result);
-    insertImg(result.data)
+    insertImg(result.data);
   }
 };
 editor.create();

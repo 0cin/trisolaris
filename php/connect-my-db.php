@@ -1,7 +1,5 @@
 <?php
 
-header("content-Type: text/html; charset=utf-8");
-
 $dbservername = "127.0.0.1";
 $dbusername = "root";
 $dbpassword = "";
