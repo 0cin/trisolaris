@@ -10,12 +10,13 @@
 6. 读取模板文件， 创建文件
 */
 
-require_once '../php/connect-my-db.php';
-include '../php/user.php';
+require_once 'connect-my-db.php';
+include 'user.php';
 
 $root = $_POST['root'];
 $title = $_POST['title'];
 $key = $_POST['key'];
+$table = $_POST['table'];
 $arl = "";
 $author = "";
 
@@ -37,7 +38,8 @@ else {
 }
 
 // 如果是插入二级菜单的话， 不用插入pdata
-if($root > 0) {
+// 还要保证是indexnav
+if($root > 1 && $table == "indexnav") {
 
   $sql = "INSERT dirpdata(dt, atype, author, title) VALUES('".date("Y-m-d h:i:s")."','1', '$author', '$title')";
   $res = $conn->query($sql);
@@ -61,20 +63,20 @@ if($root > 0) {
 }
 
 
-$sql = "INSERT indexnav(navname, arl, root, is_leaf) VALUES('$title', '$arl', '$root', '1')";
+$sql = "INSERT ".$table."(navname, arl, root, is_leaf) VALUES('$title', '$arl', '$root', '1')";
 $conn->query($sql);
 if($conn->error) {
   echo "插入数据库失败!".$conn->error;
   exit();
 }
-$sql = "UPDATE indexnav SET is_leaf='0' WHERE id='".$root."'";
+$sql = "UPDATE ".$table." SET is_leaf='0' WHERE id='".$root."'";
 $conn->query($sql);
 if($conn->error) {
   echo "更新数据库失败".$conn->error;
   exit();
 }
 
-if($root > 0) {
+if($root > 1 && $table == "indexnav") {
   /* 创建数据表nav.$arl */
   $sql = "CREATE TABLE nav".$arl.
     "(
@@ -91,7 +93,7 @@ if($root > 0) {
     exit();
   }
   // 插入默认标题
-  $sql = "INSERT nav".$arl."(id, navname, arl, root, is_leaf) VALUES('0', '$title', '', '0', '1')";
+  $sql = "INSERT nav".$arl."(navname, arl, root, is_leaf) VALUES('$title', '', '1', '1')";
   $conn->query($sql);
   if($conn->error) {
     echo "插入数据库失败!".$conn->error;

@@ -2,8 +2,8 @@
 var E = window.wangEditor;
 var editor = new E("#editor");
 editor.customConfig.uploadImgServer = 'upload.php'
-editor.customConfig.uploadImgMaxSize = 3 * 1024 * 1024;
-editor.customConfig.uploadImgMaxLength = 20;
+editor.customConfig.uploadImgMaxSize = 0.5 * 1024 * 1024;
+editor.customConfig.uploadImgMaxLength = 15;
 editor.customConfig.uploadFileName = 'file';
 editor.customConfig.uploadImgHeaders = {
   'Accept': 'multipart/form-data'

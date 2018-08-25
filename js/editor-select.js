@@ -9,6 +9,7 @@ $(document).ready(function () {
       dataType: "json",
       success: function (response) {
         if (response.code == 1) {
+          $("#second-nav-select").empty();
           response.msg.forEach(function (item) {
             $("#second-nav-select").append(
               '<option value="' + item + '">' + item + '</option>'
