@@ -4,10 +4,11 @@ require_once '../php/connect-my-db.php';
 include '../php/user.php';
 
 $great_title = "";
+$key = "";
 
 if(isset($_POST['ukey'])) {
   $ukey = $_POST['ukey'];
-
+  $key = $ukey;
   $sql = "SELECT * FROM userdata WHERE ukey='".generate_hash($ukey, $salt)."'";
   $res = $conn->query($sql);
   if($res && $res->num_rows > 0) {
@@ -20,13 +21,6 @@ if(isset($_POST['ukey'])) {
     echo "deny";
     exit();
   }
-}
-
-if(isset($_POST['id']) && isset($_POST['new_nav'])) {
-  $id = $_POST['id'];
-  $root = $_POST['newnav'];
-
-  echo "ok";
 }
 
 ?>
@@ -119,42 +113,54 @@ if(isset($_POST['id']) && isset($_POST['new_nav'])) {
   <link rel="shortcut icon" href="../images/favicon.ico" type="image/x-icon">
   <script src="../js/jquery-3.3.1.js"></script>
   <script>
+  var ukey = prompt("请出示管理员令牌");
+  $.ajax({
+    type: "post",
+    url: "index.php",
+    data: {
+      ukey : ukey
+    },
+    dataType: "text",
+    success: function (response) {
+      if(response == "accept") {
+      } else {
+        location.reload();
+      }
+    }
+  });
   $(document).ready(function () {
+    // 点击添加键
     $(".add").click(function (e) {
       // e.preventDefault();
       var new_nav = prompt("输出要添加的分区名");
       if(new_nav != null) {
         $.ajax({
           type: "post",
-          url: "index.php",
+          url: "../php/make_paration.php",
           data: {
-            id: $(this).attr("id"),
-            new_nav: new_nav
+            root: $(this).attr("id"),
+            title: new_nav,
+            key: ukey
           },
           dataType: "text",
           success: function (response) {
-
+            alert(response);
           }
         });
       }
     });
+    // 点击删除键
+    $(".del").click(function (e) {
+      // e.preventDefault();
+
+    });
+    // 点击编辑键
+    $(".edit").click(function (e) {
+      // e.preventDefault();
+
+    });
   });
-  // var ukey = prompt("请出示管理员令牌");
-  // $.ajax({
-  //   type: "post",
-  //   url: "index.php",
-  //   data: {
-  //     ukey : ukey
-  //   },
-  //   dataType: "text",
-  //   success: function (response) {
-  //     if(response == "accept") {
-  //       alert(response);
-  //     } else {
-  //       location.reload();
-  //     }
-  //   }
-  // });
+
 </script>
   <style>
     p {
