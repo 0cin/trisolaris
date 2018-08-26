@@ -4,12 +4,8 @@ if(isset($_POST['authcode'])) {
   session_start();
   if($_POST['authcode'] == $_SESSION['authcode']) {
     require_once '../../php/connect-my-db.php';
+    include '../../php/user.php';
 
-    /*
-      标题
-      作者
-      内容
-    */
 
     $title = $_POST['title'];
     $author = $_POST['author'];
@@ -26,11 +22,21 @@ if(isset($_POST['authcode'])) {
     $conn->query($sql);
 
     if($conn->error) {
-      echo "上传失败, 这个世界太♂乱".$conn->error;
+      echo "投稿失败, 这个世界太♂乱".$conn->error;
       exit();
     }
-    echo "投稿成功! 请耐心等待私站审核~";
-    exit();
+    else {
+      $sql = "SELECT * FROM userdata WHERE ukey='".generate_hash($author, $salt)."'";
+      $res = $conn->query($sql);
+      if($res && $res->num_rows > 0) {
+        echo "投稿成功! 请耐心等待私站审核~";
+        // sendmail("70851867@qq.com", "用户".$author."投稿了《".$title."》", "Trisolaris");
+        exit();
+      } else {
+        echo "投稿失败, 系统怀疑你使用了假的令牌, 请注册！".$conn->error;
+        exit();
+      }
+    }
   }
   else {
     echo "验证码错误!";

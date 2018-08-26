@@ -1,8 +1,7 @@
 /php/Upload/
 /.vscode/
 /.git/
-!/a/2
-!/a/17
-!/a/18
-!/a/template.html
-!/a/paration_template.html
+/a/
+/tmp/
+/panel/contribute/Upload/
+/trisolaris.zip

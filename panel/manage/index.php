@@ -93,61 +93,7 @@ function return_json($code, $msg="", $articles=array()) {
     <title>Trisolaris 管理</title>
     <link rel="shortcut icon" href="../../images/favicon.ico" type="image/x-icon">
     <script src="../../js/jquery-3.3.1.js"></script>
-    <script>
-      $(document).ready(function () {
-        $("#keybtn").click(function (e) {
-          // e.preventDefault();
-          $("#origin-username").text("");
-          $.ajax({
-            type: "post",
-            url: "index.php",
-            data: {
-              ukey: $("#input-ukey").val()
-            },
-            dataType: "json",
-            success: function (response) {
-              if (response.code == 0) {
-                $("#origin-username").text("无效的令牌");
-              } else {
-                $("#origin-username").text(response.msg);
-                if(response.articles != null) {
-                  // 清空元素内容
-                  $("#my-articles").empty();
-                  response.articles.forEach(function(item){
-                    $("#my-articles").append(
-                      '<li><a href="../' + item.id + '/" target="_blank">' + item.title +
-                      '</a><button class="editbtn" id="' + item.id + '">编辑</button><button class="delbtn" id="' + item.id + '">删除</button></li>'
-                    );
-                  });
-                }
-              }
-            },
-            error: function(response) {
-              console.log("failed");
-            }
-          });
-        });
-
-        $("#login-btn").click(function (e) {
-          // e.preventDefault();
-          $("#prompt").text("");
-          $.ajax({
-            type: "post",
-            url: "index.php",
-            data: {
-              origin_username: $("#origin-username").text(),
-              new_username: $("#input-username").val()
-            },
-            dataType: "json",
-            success: function (response) {
-              $("#prompt").text(response.msg);
-
-            }
-          });
-        });
-      });
-
-    </script>
+    <script src="../../js/manage.js"></script>
   </head>
 
   <body>

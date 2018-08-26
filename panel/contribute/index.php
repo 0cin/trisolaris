@@ -60,16 +60,23 @@
   <link rel="stylesheet" href="../../css/general.css">
   <script src="../../js/jquery-3.3.1.js"></script>
   <script src="../../js/editor-select.js"></script>
+  <style>
+    .error {
+      color: red;
+    }
+  </style>
 </head>
 <body>
   <div id="head">
     <h1>某无名小站<span id="strongno-rev">の</span>稿件上传区  ヾ(ω`)/ </h1>
   </div>
-  <span>标题: &nbsp;</span><input type="text" id="title-input"><br>
-  <span>令牌: &nbsp;</span><input type="text" id="key-input" maxlength="6"><br>
+  <span>标题: &nbsp;</span><input type="text" id="title-input"><span id="title-error" class="error">*</span><br>
+  <span>令牌: &nbsp;</span><input type="text" id="key-input" maxlength="6"><span id="key-error" class="error">*</span><br>
   <div id="editor"></div>
   <script src="../../editor/release/wangEditor.min.js"></script>
   <script src="../../js/editor.js"></script>
+  <script src="../../js/contribute-index.js"></script>
+
   <span>提交到:&nbsp;</span>
   <select id="great-nav-select">
     <?php
@@ -77,51 +84,8 @@
     ?>
   </select>
   <select id="second-nav-select"> </select><br>
-  <span>验证码:</span> <input type="text" name="authcode" id="input-authcode" maxlength="4"><br>
+  <span>验证码:</span> <input type="text" name="authcode" id="input-authcode" maxlength="4"><span id="title-error" class="error">*</span><br>
   <img src="../../php/captcha.php?=<?php echo rand();?>" width="100" height="30" id="captcha_img">
   <button id="upload-btn">投稿</button>
-  <script>
-    function refresh_authcode() {
-      document.getElementById('captcha_img').src = '../../php/captcha.php?r=' + Math.random();
-    }
-    $("#upload-btn").click(function (e) {
-      // e.preventDefault();
-      $.ajax({
-        type: "post",
-        url: "contribute.php",
-        data: {
-          title: $("#title-input").val(),
-          author: $("#key-input").val(),
-          content: editor.txt.html(),
-          firstnav: $("#great-nav-select").val(),
-          secondnav: $("#second-nav-select").val(),
-          authcode: $("#input-authcode").val()
-        },
-        dataType: "text",
-        success: function (response) {
-          alert(response);
-          refresh_authcode();
-        }
-      });
-    });
-    // $("#upload-btn").click(function (e) {
-    //   $.ajax({
-    //     type: "post",
-    //     url: "up.php",
-    //     data: {
-    //       title: $("#title-input").val(),
-    //       key: $("#key-input").val(),
-    //       content: editor.txt.html(),
-    //       navname: $("#great-nav-select").val(),
-    //       second_nav_name: $("#second-nav-select").val()
-    //     },
-    //     dataType: "text",
-    //     success: function (response) {
-    //       alert(response);
-    //     }
-    //   });
-
-    // });
-  </script>
 </body>
 </html>
